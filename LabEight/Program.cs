@@ -3,16 +3,16 @@ using System.Collections;
 using System.IO;
 using System.Windows.Forms;
 
-namespace DirectorySyncApp
+namespace LabEight
 {
-    public class DirectorySyncModel
+    public class Model
     {
         public event Action<string> SyncStatusChanged;
 
-        public void SynchronizeDirectories(string directory1, string directory2) //ñèíõðîí
+        public void SynchronizeDirectories(string firstDirectory, string secondDirectory) //синхрон
         {
-            SyncFiles(directory1, directory2);
-            SyncFiles(directory2, directory1);
+            SyncFiles(firstDirectory, secondDirectory);
+            SyncFiles(secondDirectory, firstDirectory);
         }
 
         private void SyncFiles(string sourceDirectory, string destinationDirectory)
@@ -25,12 +25,12 @@ namespace DirectorySyncApp
                 if (File.Exists(destinationFilePath) && !AreFilesEqual(sourceFilePath, destinationFilePath))
                 {
                     File.Copy(sourceFilePath, destinationFilePath, true);
-                    SyncStatusChanged?.Invoke($"Ôàéë \"{sourceFileName}\" ñèíõðîíèçèðîâàí");
+                    SyncStatusChanged?.Invoke($"Файл \"{sourceFileName}\" синхронизирован");
                 }
             }
         }
 
-        private bool AreFilesEqual(string filePath1, string filePath2) //ïðîâåðêà íà ñîäåðæàíèå
+        private bool AreFilesEqual(string filePath1, string filePath2) //проверка на содержание
         {
             byte[] file1 = File.ReadAllBytes(filePath1);
             byte[] file2 = File.ReadAllBytes(filePath2);
@@ -38,10 +38,10 @@ namespace DirectorySyncApp
             return StructuralComparisons.StructuralEqualityComparer.Equals(file1, file2);
         }
 
-        public void DeleteFilesNotPresent(string directory1, string directory2) //óäàëåíèå
+        public void DeleteFilesNotPresent(string firstDirectory, string secondDirectory) //удаление
         {
-            DeleteFilesNotPresentInDirectory(directory1, directory2);
-            DeleteFilesNotPresentInDirectory(directory2, directory1);
+            DeleteFilesNotPresentInDirectory(firstDirectory, secondDirectory);
+            DeleteFilesNotPresentInDirectory(secondDirectory, firstDirectory);
         }
 
         private void DeleteFilesNotPresentInDirectory(string sourceDirectory, string destinationDirectory)
@@ -54,19 +54,18 @@ namespace DirectorySyncApp
                 if (!File.Exists(destinationFilePath))
                 {
                     File.Delete(sourceFilePath);
-                    SyncStatusChanged?.Invoke($"Ôàéë \"{sourceFileName}\" óäàëåí");
+                    SyncStatusChanged?.Invoke($"Файл \"{sourceFileName}\" удален");
                 }
             }
         }
     }
 
-
-    public class DirectorySyncPresenter
+    public class Presenter
     {
-        private DirectorySyncModel model;
-        private DirectorySyncView view;
+        private Model model;
+        private View view;
 
-        public DirectorySyncPresenter(DirectorySyncModel model, DirectorySyncView view)
+        public Presenter(Model model, View view)
         {
             this.model = model;
             this.view = view;
@@ -83,9 +82,9 @@ namespace DirectorySyncApp
         [STAThread]
         static void Main()
         {
-            DirectorySyncModel model = new DirectorySyncModel();
-            DirectorySyncView view = new DirectorySyncView();
-            DirectorySyncPresenter presenter = new DirectorySyncPresenter(model, view);
+            Model model = new Model();
+            View view = new View();
+            Presenter presenter = new Presenter(model, view);
             presenter.Run();
         }
     }
