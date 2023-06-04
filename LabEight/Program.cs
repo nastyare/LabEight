@@ -58,6 +58,27 @@ namespace LabEight
                 }
             }
         }
+        
+        public void CreateFiles(string FirstDirectory, string SecondDirectory)   //создание
+        {
+            CreateMissingFiles(FirstDirectory, SecondDirectory);
+            CreateMissingFiles(SecondDirectory, FirstDirectory);
+        }
+
+        private void CreateMissingFiles(string StartDirectory, string EndDirectory)
+        {
+            foreach (string StartFilePath in Directory.GetFiles(StartDirectory))
+            {
+                string StartFileName = Path.GetFileName(StartFilePath);
+                string EndFilePath = Path.Combine(EndDirectory, StartFileName);
+
+                if (!File.Exists(EndFilePath))
+                {
+                    File.Create(StartFilePath);
+                    SyncStatusChanged?.Invoke($"Файл \"{StartFileName}\" создан");
+                }
+            }
+        }
     }
 
     public class Presenter
