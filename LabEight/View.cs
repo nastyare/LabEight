@@ -6,103 +6,103 @@ using System.Threading.Tasks;
 
 namespace LabEight
 {
-    public class DirectorySyncView : Form
+    public class View : Form
     {
-        private TextBox directory1TextBox;
-        private TextBox directory2TextBox;
-        private Button startButton;
-        private Button createButton;
-        private Button deleteButton;
-        private Button syncButton;
-        private ListBox statusListBox;
+        private TextBox PlaceForTheFirstDirectory;
+        private TextBox PlaceForTheSecondDirectory;
+        private Button StartButton;
+        private Button CreateButton;
+        private Button DeleteButton;
+        private Button SyncButton;
+        private ListBox StatusListBox;
 
-        public DirectorySyncView()
+        public View()
         {
-            directory1TextBox = new TextBox();
-            directory1TextBox.Location = new System.Drawing.Point(10, 10);
-            directory1TextBox.Size = new System.Drawing.Size(300, 20);
+            PlaceForTheFirstDirectory = new TextBox();
+            PlaceForTheFirstDirectory.Location = new System.Drawing.Point(10, 10);
+            PlaceForTheFirstDirectory.Size = new System.Drawing.Size(300, 20);
 
-            directory2TextBox = new TextBox();
-            directory2TextBox.Location = new System.Drawing.Point(10, 40);
-            directory2TextBox.Size = new System.Drawing.Size(300, 20);
+            PlaceForTheSecondDirectory = new TextBox();
+            PlaceForTheSecondDirectory.Location = new System.Drawing.Point(10, 40);
+            PlaceForTheSecondDirectory.Size = new System.Drawing.Size(300, 20);
 
-            startButton = new Button();
-            startButton.Location = new System.Drawing.Point(320, 10);
-            startButton.Size = new System.Drawing.Size(75, 50);
-            startButton.Text = "Ñòàðò";
-            startButton.Click += StartButton_Click;
+            StartButton = new Button();
+            StartButton.Location = new System.Drawing.Point(320, 10);
+            StartButton.Size = new System.Drawing.Size(75, 50);
+            StartButton.Text = "Старт";
+            StartButton.Click += StartButton_Click;
 
-            createButton = new Button();
-            createButton.Location = new System.Drawing.Point(10, 80);
-            createButton.Size = new System.Drawing.Size(100, 30);
-            createButton.Text = "Ñîçäàòü";
-            createButton.Click += CreateButton_Click;
+            CreateButton = new Button();
+            CreateButton.Location = new System.Drawing.Point(10, 80);
+            CreateButton.Size = new System.Drawing.Size(100, 30);
+            CreateButton.Text = "Создать";
+            CreateButton.Click += CreateButton_Click;
 
-            deleteButton = new Button();
-            deleteButton.Location = new System.Drawing.Point(120, 80);
-            deleteButton.Size = new System.Drawing.Size(100, 30);
-            deleteButton.Text = "Óäàëèòü";
-            deleteButton.Click += DeleteButton_Click;
+            DeleteButton = new Button();
+            DeleteButton.Location = new System.Drawing.Point(120, 80);
+            DeleteButton.Size = new System.Drawing.Size(100, 30);
+            DeleteButton.Text = "Удалить";
+            DeleteButton.Click += DeleteButton_Click;
 
-            syncButton = new Button();
-            syncButton.Location = new System.Drawing.Point(230, 80);
-            syncButton.Size = new System.Drawing.Size(130, 30);
-            syncButton.Text = "Ñèíõðîíèçèðîâàòü";
-            syncButton.Click += SyncButton_Click;
+            SyncButton = new Button();
+            SyncButton.Location = new System.Drawing.Point(230, 80);
+            SyncButton.Size = new System.Drawing.Size(130, 30);
+            SyncButton.Text = "Синхронизировать";
+            SyncButton.Click += SyncButton_Click;
 
-            statusListBox = new ListBox();
-            statusListBox.Location = new System.Drawing.Point(10, 120);
-            statusListBox.Size = new System.Drawing.Size(400, 200);
+            StatusListBox = new ListBox();
+            StatusListBox.Location = new System.Drawing.Point(10, 120);
+            StatusListBox.Size = new System.Drawing.Size(400, 200);
 
-            Controls.Add(directory1TextBox);
-            Controls.Add(directory2TextBox);
-            Controls.Add(startButton);
-            Controls.Add(createButton);
-            Controls.Add(deleteButton);
-            Controls.Add(syncButton);
-            Controls.Add(statusListBox);
+            Controls.Add(PlaceForTheFirstDirectory);
+            Controls.Add(PlaceForTheSecondDirectory);
+            Controls.Add(StartButton);
+            Controls.Add(CreateButton);
+            Controls.Add(DeleteButton);
+            Controls.Add(SyncButton);
+            Controls.Add(StatusListBox);
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            createButton.Enabled = true;
-            deleteButton.Enabled = true;
-            syncButton.Enabled = true;
+            CreateButton.Enabled = true;
+            DeleteButton.Enabled = true;
+            SyncButton.Enabled = true;
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            string directory1 = directory1TextBox.Text;
-            string directory2 = directory2TextBox.Text;
+            string firstDirectory = PlaceForTheFirstDirectory.Text;
+            string secondDirectory = PlaceForTheSecondDirectory.Text;
 
-            DirectorySyncModel model = new DirectorySyncModel();
+            Model model = new Model();
             model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.SynchronizeDirectories(directory1, directory2);
+            model.SynchronizeDirectories(firstDirectory, secondDirectory);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            string directory1 = directory1TextBox.Text;
-            string directory2 = directory2TextBox.Text;
+            string firstDirectory = PlaceForTheFirstDirectory.Text;
+            string secondDirectory = PlaceForTheSecondDirectory.Text;
 
-            DirectorySyncModel model = new DirectorySyncModel();
+            Model model = new Model();
             model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.DeleteFilesNotPresent(directory1, directory2);
+            model.DeleteFilesNotPresent(firstDirectory, secondDirectory);
         }
 
         private void SyncButton_Click(object sender, EventArgs e)
         {
-            string directory1 = directory1TextBox.Text;
-            string directory2 = directory2TextBox.Text;
+            string firstDirectory = PlaceForTheFirstDirectory.Text;
+            string secondDirectory = PlaceForTheSecondDirectory.Text;
 
-            DirectorySyncModel model = new DirectorySyncModel();
+            Model model = new Model();
             model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.SynchronizeDirectories(directory1, directory2);
+            model.SynchronizeDirectories(firstDirectory, secondDirectory);
         }
 
         private void SyncStatusChangedHandler(string status)
         {
-            statusListBox.Items.Add(status);
+            StatusListBox.Items.Add(status);
         }
     }
 }
