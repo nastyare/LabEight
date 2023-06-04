@@ -7,54 +7,54 @@ namespace LabEight
 {
     public class Model
     {
-        public event Action<string> SyncStatusChanged;
+        public event Action<string> SynchronizationStatus;
 
         public void SynchronizeDirectories(string firstDirectory, string secondDirectory) //синхрон
         {
-            SyncFiles(firstDirectory, secondDirectory);
-            SyncFiles(secondDirectory, firstDirectory);
+            SynchronizeFiles(firstDirectory, secondDirectory);
+            SynchronizeFiles(secondDirectory, firstDirectory);
         }
 
-        private void SyncFiles(string sourceDirectory, string destinationDirectory)
+        private void SynchronizeFiles(string StartDirectory, string EndDirectory)
         {
-            foreach (string sourceFilePath in Directory.GetFiles(sourceDirectory))
+            foreach (string StartFilePath in Directory.GetFiles(StartDirectory))
             {
-                string sourceFileName = Path.GetFileName(sourceFilePath);
-                string destinationFilePath = Path.Combine(destinationDirectory, sourceFileName);
+                string SourceFileName = Path.GetFileName(StartFilePath);
+                string EndFilePath = Path.Combine(EndDirectory, sourceFileName);
 
-                if (File.Exists(destinationFilePath) && !AreFilesEqual(sourceFilePath, destinationFilePath))
+                if (File.Exists(EndFilePath) && !AreFilesEqual(StartFilePath, EndFilePath))
                 {
-                    File.Copy(sourceFilePath, destinationFilePath, true);
-                    SyncStatusChanged?.Invoke($"Файл \"{sourceFileName}\" синхронизирован");
+                    File.Copy(StartFilePath, EndFilePath, true);
+                    SynchronizationStatus?.Invoke($"Файл \"{sourceFileName}\" синхронизирован");
                 }
             }
         }
 
-        private bool AreFilesEqual(string filePath1, string filePath2) //проверка на содержание
+        private bool AreFilesEqual(string FirstFilePath, string SecondFilePath) //проверка на содержание
         {
-            byte[] file1 = File.ReadAllBytes(filePath1);
-            byte[] file2 = File.ReadAllBytes(filePath2);
+            byte[] FirstFile = File.ReadAllBytes(FirstFilePath);
+            byte[] SecondFile = File.ReadAllBytes(SecondFilePath);
 
-            return StructuralComparisons.StructuralEqualityComparer.Equals(file1, file2);
+            return StructuralComparisons.StructuralEqualityComparer.Equals(FirstFile, SecondFile);
         }
 
-        public void DeleteFilesNotPresent(string firstDirectory, string secondDirectory) //удаление
+        public void DeleteFiles(string FirstDirectory, string SecondDirectory) //удаление
         {
-            DeleteFilesNotPresentInDirectory(firstDirectory, secondDirectory);
-            DeleteFilesNotPresentInDirectory(secondDirectory, firstDirectory);
+            DeleteFilesNotPresent(FirstDirectory, SecondDirectory);
+            DeleteFilesNotPresent(SecondDirectory, FirstDirectory);
         }
 
-        private void DeleteFilesNotPresentInDirectory(string sourceDirectory, string destinationDirectory)
+        private void DeleteFilesNotPresent(string StartDirectory, string EndDirectory)
         {
-            foreach (string sourceFilePath in Directory.GetFiles(sourceDirectory))
+            foreach (string StartFilePath in Directory.GetFiles(StartDirectory))
             {
-                string sourceFileName = Path.GetFileName(sourceFilePath);
-                string destinationFilePath = Path.Combine(destinationDirectory, sourceFileName);
+                string StartFileName = Path.GetFileName(StartFilePath);
+                string EndFilePath = Path.Combine(EndDirectory, StartFileName);
 
-                if (!File.Exists(destinationFilePath))
+                if (!File.Exists(EndFilePath))
                 {
-                    File.Delete(sourceFilePath);
-                    SyncStatusChanged?.Invoke($"Файл \"{sourceFileName}\" удален");
+                    File.Delete(StartFilePath);
+                    SynchronizationStatus?.Invoke($"Файл \"{sourceFileName}\" удалён");
                 }
             }
         }
