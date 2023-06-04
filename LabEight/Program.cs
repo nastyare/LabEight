@@ -9,18 +9,18 @@ namespace LabEight
     {
         public event Action<string> SynchronizationStatus;
 
-        public void SynchronizeDirectories(string firstDirectory, string secondDirectory) //синхрон
+        public void SynchronizeDirectories(string FirstDirectory, string SecondDirectory) //синхрон
         {
-            SynchronizeFiles(firstDirectory, secondDirectory);
-            SynchronizeFiles(secondDirectory, firstDirectory);
+            SynchronizeFiles(FirstDirectory, SecondDirectory);
+            SynchronizeFiles(SecondDirectory, FirstDirectory);
         }
 
         private void SynchronizeFiles(string StartDirectory, string EndDirectory)
         {
             foreach (string StartFilePath in Directory.GetFiles(StartDirectory))
             {
-                string SourceFileName = Path.GetFileName(StartFilePath);
-                string EndFilePath = Path.Combine(EndDirectory, sourceFileName);
+                string StartFileName = Path.GetFileName(StartFilePath);
+                string EndFilePath = Path.Combine(EndDirectory, StartFileName);
 
                 if (File.Exists(EndFilePath) && !AreFilesEqual(StartFilePath, EndFilePath))
                 {
