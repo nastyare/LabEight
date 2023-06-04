@@ -100,7 +100,7 @@ namespace DirectorySyncApp
 
             syncButton = new Button();
             syncButton.Location = new System.Drawing.Point(230, 80);
-            syncButton.Size = new System.Drawing.Size(100, 30);
+            syncButton.Size = new System.Drawing.Size(130, 30);
             syncButton.Text = "Синхронизировать";
             syncButton.Click += SyncButton_Click;
 
