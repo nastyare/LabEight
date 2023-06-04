@@ -77,7 +77,7 @@ namespace LabEight
 
             Model model = new Model();
             model.SynchronizationStatus += StatusChanging;
-            model.SynchronizeDirectories(FirstDirectory, SecondDirectory);
+            model.CreateFiles(FirstDirectory, SecondDirectory);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
