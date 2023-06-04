@@ -25,7 +25,7 @@ namespace LabEight
                 if (File.Exists(EndFilePath) && !AreFilesEqual(StartFilePath, EndFilePath))
                 {
                     File.Copy(StartFilePath, EndFilePath, true);
-                    SynchronizationStatus?.Invoke($"Файл \"{sourceFileName}\" синхронизирован");
+                    SynchronizationStatus?.Invoke($"Файл \"{StartFileName}\" синхронизирован");
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace LabEight
                 if (!File.Exists(EndFilePath))
                 {
                     File.Delete(StartFilePath);
-                    SynchronizationStatus?.Invoke($"Файл \"{sourceFileName}\" удалён");
+                    SynchronizationStatus?.Invoke($"Файл \"{StartFileName}\" удалён");
                 }
             }
         }
