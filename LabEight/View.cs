@@ -72,35 +72,35 @@ namespace LabEight
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            string firstDirectory = PlaceForTheFirstDirectory.Text;
-            string secondDirectory = PlaceForTheSecondDirectory.Text;
+            string FirstDirectory = PlaceForTheFirstDirectory.Text;
+            string SecondDirectory = PlaceForTheSecondDirectory.Text;
 
             Model model = new Model();
-            model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.SynchronizeDirectories(firstDirectory, secondDirectory);
+            model.SynchronizationStatus += StatusChanging;
+            model.SynchronizeDirectories(FirstDirectory, SecondDirectory);
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            string firstDirectory = PlaceForTheFirstDirectory.Text;
-            string secondDirectory = PlaceForTheSecondDirectory.Text;
+            string FirstDirectory = PlaceForTheFirstDirectory.Text;
+            string SecondDirectory = PlaceForTheSecondDirectory.Text;
 
             Model model = new Model();
-            model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.DeleteFilesNotPresent(firstDirectory, secondDirectory);
+            model.SynchronizationStatus += StatusChanging;
+            model.DeleteFiles(FirstDirectory, SecondDirectory);
         }
 
         private void SyncButton_Click(object sender, EventArgs e)
         {
-            string firstDirectory = PlaceForTheFirstDirectory.Text;
-            string secondDirectory = PlaceForTheSecondDirectory.Text;
+            string FirstDirectory = PlaceForTheFirstDirectory.Text;
+            string SecondDirectory = PlaceForTheSecondDirectory.Text;
 
             Model model = new Model();
-            model.SyncStatusChanged += SyncStatusChangedHandler;
-            model.SynchronizeDirectories(firstDirectory, secondDirectory);
+            model.SynchronizationStatus += StatusChanging;
+            model.SynchronizeDirectories(FirstDirectory, SecondDirectory);
         }
 
-        private void SyncStatusChangedHandler(string status)
+        private void StatusChanging(string status)
         {
             StatusListBox.Items.Add(status);
         }
